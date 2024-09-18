@@ -1,5 +1,5 @@
 namespace Services.CharacterRandomizer {
-    public interface ICharacterRandomizer {
+    public interface ICharacterRandomizeStrategy {
         public string GetRandomCharacter();
     }
 }

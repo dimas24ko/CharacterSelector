@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Contexts;
+using Services.CharacterFactory;
 using Services.CharacterRandomizer;
 using Services.CharacterSelector;
 using UnityEngine;
@@ -14,9 +15,10 @@ namespace StateMachine.States {
 
         private readonly Action<StateType> _exitAction;
         private readonly GlobalContext _globalContext;
-        
-        private CharacterSelector _characterSelector;
+
+        private ICharacterSelectStrategy _characterSelector;
         private LobbyView _view;
+        private CharacterEntity _characterEntity;
 
         public LobbyState(Action<StateType> exitAction, GlobalContext globalContext) {
             _exitAction = exitAction;
@@ -39,11 +41,11 @@ namespace StateMachine.States {
 
         private void OnLobbySceneLoaded() {
             _view = Object.FindObjectOfType<LobbyView>();
-            
+
             List<string> allCharacters = _globalContext.AssetManager.GetAllCharacters();
             var characterRandomizer = new SimpleRandomCharacterGetter(allCharacters);
-            _characterSelector = new CharacterSelector(characterRandomizer);
-            
+            _characterSelector = new RandomCharacterSelector(characterRandomizer);
+
             BindEvents();
         }
 
@@ -58,17 +60,17 @@ namespace StateMachine.States {
         }
 
         private void OnGenerateButtonClick() {
-            _globalContext.SelectedCharacter = _characterSelector.SelectRandom();
+            _globalContext.SelectedCharacter = _characterSelector.GetNextCharacter();
 
             CreateCharacter();
         }
 
         private void CreateCharacter() {
-            if (_view.selectedCharacter != null) {
-                Object.Destroy(_view.selectedCharacter);
+            if (_characterEntity != null) {
+                _characterEntity.DestroyView();
             }
 
-            _view.selectedCharacter = _globalContext.CharacterFactory.CreateCharacter(_globalContext.SelectedCharacter, 
+            _characterEntity = _globalContext.CharacterFactory.CreateCharacter(_globalContext.SelectedCharacter,
                 _view.characterContainer);
         }
 

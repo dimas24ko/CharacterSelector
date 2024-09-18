@@ -1,5 +1,5 @@
 using Services.AssetManager;
-using Services.CharacterPrefabFactory;
+using Services.CharacterFactory;
 using StateMachine;
 
 namespace Contexts {
