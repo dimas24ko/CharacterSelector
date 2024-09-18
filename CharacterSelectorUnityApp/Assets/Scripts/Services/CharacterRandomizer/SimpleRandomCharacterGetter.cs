@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Services.RandomCharacterSelector;
 
 namespace Services.CharacterRandomizer {
     public class SimpleRandomCharacterGetter : ICharacterRandomizer {

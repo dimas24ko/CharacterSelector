@@ -1,4 +1,4 @@
-using Services.RandomCharacterSelector;
+using Services.CharacterRandomizer;
 
 namespace Services.CharacterSelector {
     public class CharacterSelector {
