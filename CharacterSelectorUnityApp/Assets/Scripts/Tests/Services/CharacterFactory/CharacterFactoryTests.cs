@@ -13,7 +13,7 @@ namespace Tests.Services.CharacterFactory {
             assetManager.LoadAllAssets();
             var characterFactory = new SimpleCharacterFactory(assetManager);
             string characterId = "character1";
-            var parent = new GameObject("parent").transform;
+            Transform parent = new GameObject("parent").transform;
 
             CharacterEntity character = characterFactory.CreateCharacter(characterId, parent);
 
@@ -24,7 +24,7 @@ namespace Tests.Services.CharacterFactory {
     }
 
     public class MockAssetManager : IAssetManager {
-        private Dictionary<string, GameObject> _assets = new Dictionary<string, GameObject>();
+        private readonly Dictionary<string, GameObject> _assets = new Dictionary<string, GameObject>();
 
         public Action OnAssetsLoadSuccess { get; set; }
         public Action OnAssetsLoadFail { get; set; }
