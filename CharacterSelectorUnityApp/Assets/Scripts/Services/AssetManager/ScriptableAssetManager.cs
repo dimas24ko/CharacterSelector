@@ -34,7 +34,7 @@ namespace Services.AssetManager {
         }
 
         public GameObject GetAsset(string key) {
-            return _loadedAssetsMap[key];
+            return _loadedAssetsMap.TryGetValue(key, out GameObject asset) ? asset : null;
         }
 
         public List<string> GetAllCharacters() {
