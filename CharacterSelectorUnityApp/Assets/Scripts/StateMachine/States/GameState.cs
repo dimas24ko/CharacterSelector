@@ -31,8 +31,6 @@ namespace StateMachine.States {
         }
 
         public void Exit() {
-            _globalContext.SelectedCharacter = null;
-
             _characterEntity.DestroyView();
 
             UnbindEvents();

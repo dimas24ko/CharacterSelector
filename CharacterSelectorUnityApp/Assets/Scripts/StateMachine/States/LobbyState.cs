@@ -46,6 +46,8 @@ namespace StateMachine.States {
             var characterRandomizer = new SimpleRandomCharacterGetter(allCharacters);
             _characterSelector = new RandomCharacterSelector(characterRandomizer);
 
+            CreateCharacter();
+
             BindEvents();
         }
 
@@ -60,7 +62,8 @@ namespace StateMachine.States {
         }
 
         private void OnGenerateButtonClick() {
-            _globalContext.SelectedCharacter = _characterSelector.GetNextCharacter();
+            string newCharacter = _characterSelector.GetNextCharacter();
+            _globalContext.SetSelectedCharacter(newCharacter);
 
             CreateCharacter();
         }
@@ -68,6 +71,10 @@ namespace StateMachine.States {
         private void CreateCharacter() {
             if (_characterEntity != null) {
                 _characterEntity.DestroyView();
+            }
+
+            if (string.IsNullOrEmpty(_globalContext.SelectedCharacter)) {
+                return;
             }
 
             _characterEntity = _globalContext.CharacterFactory.CreateCharacter(_globalContext.SelectedCharacter,
